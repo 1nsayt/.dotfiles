@@ -1,0 +1,12 @@
+/*
+!/.gitignore
+!/.config
+/.config/*
+!/.config/alacritty
+!/.config/i3
+!/.config/nvim
+!/.config/picom
+!/.config/polybar
+!/.config/tmux
+!.zshrc
+!.tmux.conf
