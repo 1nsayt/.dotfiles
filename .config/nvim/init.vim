@@ -48,19 +48,23 @@ Plug 'nvim-neorg/neorg'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 Plug 'gruvbox-community/gruvbox'
+Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
 
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
 
-colorscheme gruvbox
+let g:tokyonight_style = "night"
+colorscheme tokyonight
+
 highlight Normal guibg=none
 
 lua require('insayt')
 
 let mapleader = " "
 let g:neoformat_try_formatprg = 1
+let g:rustfmt_autosave = 1
 
 nnoremap <leader>u :UndotreeShow<CR>
 nnoremap <leader>pv :Ex<CR>

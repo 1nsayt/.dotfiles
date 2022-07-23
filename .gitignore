@@ -1,5 +1,4 @@
 /*
-!/.gitignore
 !/.config
 /.config/*
 !/.config/alacritty
@@ -8,5 +7,6 @@
 !/.config/picom
 !/.config/polybar
 !/.config/tmux
+!/.config/starship.toml
 !.zshrc
 !.tmux.conf
