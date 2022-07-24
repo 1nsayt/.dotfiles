@@ -32,13 +32,12 @@ Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'onsails/lspkind-nvim'
 Plug 'glepnir/lspsaga.nvim'
 Plug 'stevearc/aerial.nvim'
+Plug 'rust-lang/rust.vim'
 
 " snippets
 Plug 'L3MON4D3/LuaSnip'
 Plug 'rafamadriz/friendly-snippets'
 Plug 'mattn/emmet-vim'
-
-Plug 'rust-lang/rust.vim'
 
 " prettier
 Plug 'sbdchd/neoformat'
@@ -89,6 +88,8 @@ nnoremap <leader>Y gg"+yG
 
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
+
+nnoremap <leader>crs :g;<c-r><c-w>; s;[a-z]\zs[A-Z];_\l&;g<cr>
 
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
