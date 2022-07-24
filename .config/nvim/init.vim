@@ -28,9 +28,12 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
+Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'onsails/lspkind-nvim'
+"" TODO: Need to setup asap
 Plug 'glepnir/lspsaga.nvim'
+"" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'stevearc/aerial.nvim'
 Plug 'rust-lang/rust.vim'
 
