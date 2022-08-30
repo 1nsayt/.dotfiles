@@ -32,9 +32,8 @@ Plug 'saadparwaiz1/cmp_luasnip'
 Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'onsails/lspkind-nvim'
 "" TODO: Need to setup asap
-Plug 'glepnir/lspsaga.nvim'
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 "" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'stevearc/aerial.nvim'
 Plug 'rust-lang/rust.vim'
 
 " snippets
