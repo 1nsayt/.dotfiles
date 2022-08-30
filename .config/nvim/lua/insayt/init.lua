@@ -3,6 +3,7 @@ require("insayt.telescope")
 require("insayt.lualine")
 require("insayt.neorg")
 require("insayt.treesitter")
+require("insayt.neogit")
 
 P = function(v)
 	print(vim.inspect(v))
