@@ -9,7 +9,6 @@ set wildignore+=**/.git/*
 
 call plug#begin('~/.vim/plugged')
 
-
 Plug 'mbbill/undotree'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
