@@ -9,8 +9,6 @@ set wildignore+=**/.git/*
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-fugitive'
-Plug 'junegunn/gv.vim'
 Plug 'mbbill/undotree'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -20,6 +18,9 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzy-native.nvim'
+
+" git plugins
+Plug 'TimUntersberger/neogit'
 Plug 'ThePrimeagen/git-worktree.nvim'
 
 " lsp plugins
@@ -29,12 +30,10 @@ Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'saadparwaiz1/cmp_luasnip'
-Plug 'tzachar/cmp-tabnine', { 'do': './install.sh' }
 Plug 'onsails/lspkind-nvim'
 "" TODO: Need to setup asap
-Plug 'glepnir/lspsaga.nvim'
+Plug 'glepnir/lspsaga.nvim', { 'branch': 'main' }
 "" Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-Plug 'stevearc/aerial.nvim'
 Plug 'rust-lang/rust.vim'
 
 " snippets
