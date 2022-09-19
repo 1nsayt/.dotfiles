@@ -110,6 +110,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias nv="nvim"
+alias fn='nvim "$(fzf)"'
 
 # Starship
 eval "$(starship init zsh)"
