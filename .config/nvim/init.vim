@@ -12,6 +12,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'mbbill/undotree'
 
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-context'
 
 " telescope requirements ...
 Plug 'nvim-lua/popup.nvim'
