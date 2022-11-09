@@ -23,6 +23,7 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 " git plugins
 Plug 'TimUntersberger/neogit'
 Plug 'ThePrimeagen/git-worktree.nvim'
+Plug 'sindrets/diffview.nvim'
 
 " lsp plugins
 Plug 'williamboman/mason.nvim'
