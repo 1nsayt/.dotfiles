@@ -4,6 +4,7 @@ require("insayt.lualine")
 require("insayt.neorg")
 require("insayt.treesitter")
 require("insayt.neogit")
+require("insayt.lspSaga")
 
 P = function(v)
 	print(vim.inspect(v))
