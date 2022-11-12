@@ -1,3 +1,4 @@
+require("insayt.set")
 require("insayt.lsp")
 require("insayt.telescope")
 require("insayt.lualine")
