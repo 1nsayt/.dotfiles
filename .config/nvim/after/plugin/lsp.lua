@@ -2,13 +2,49 @@ local nvim_lsp = require("lspconfig")
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
+-- TODO: Исправить ошибку с обработкой методов
+local lspsaga = require("lspsaga")
+lspsaga.init_lsp_saga()
+
+local Remap = require("insayt.keymap")
+local nnoremap = Remap.nnoremap
+local inoremap = Remap.inoremap
+
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local function config(_config)
 	return vim.tbl_deep_extend("force", {
-		capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities()),
+		on_attach = function()
+			nnoremap("gd", function() lspsaga.peek_definition({ silent = true }) end)
+			nnoremap("K", function() lspsaga.hover_doc({ silent = true }) end)
+			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
+			nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
+			nnoremap("]d", function() lspsaga.diagnostic_jump_prev({ silent = true }) end)
+			nnoremap("[d", function() lspsaga.diagnostic_jump_next({ silent = true }) end)
+			nnoremap("]D", function() lspsaga.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
+			nnoremap("[D", function() lspsaga.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
+			nnoremap("<leader>vca", function() lspsaga.code_action({ silent = true }) end)
+			nnoremap("<leader>vco", function() lspsaga.code_action({
+                filter = function(code_action)
+                    if not code_action or not code_action.data then
+                        return false
+                    end
+
+                    local data = code_action.data.id
+                    return string.sub(data, #data - 1, #data) == ":0"
+                end,
+                apply = true
+            }) end)
+			nnoremap("<leader>vrr", function() lspsaga.lsp_finder({ silent = true }) end)
+			nnoremap("<leader>vrn", function() lspsaga.rename{ silent = true }() end)
+			nnoremap("<leader>vsd", function() lspsaga.show_line_diagnostics({ silent = true }) end)
+			nnoremap("<leader>vsd", function() lspsaga.show_cursor_diagnostics({ silent = true }) end)
+            --TODO: need to add and test outline
+
+			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
+		end,
 	}, _config or {})
 end
 
@@ -91,7 +127,20 @@ nvim_lsp.eslint.setup(config({
  )
 )
 
---- I don't know is it need or now.
+local opts = {
+	-- whether to highlight the currently hovered symbol
+	-- disable if your cpu usage is higher than you want it
+	-- or you just hate the highlight
+	-- default: true
+	highlight_hovered_item = true,
+
+	-- whether to show outline guides
+	-- default: true
+	show_guides = true,
+}
+
+--require("symbols-outline").setup(opts)
+
 local snippets_paths = function()
 	local plugins = { "friendly-snippets" }
 	local paths = {}
@@ -176,3 +225,4 @@ require("luasnip.loaders.from_vscode").lazy_load({
 	include = nil, -- Load all languages
 	exclude = {},
 })
+

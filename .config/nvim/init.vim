@@ -1,3 +1,4 @@
+" TODO: Move to packer
 set path+=**
 
 " Nice menu when typing `:find *.py`
@@ -65,42 +66,5 @@ highlight Normal guibg=none
 
 lua require('insayt')
 
-let mapleader = " "
 let g:neoformat_try_formatprg = 1
 let g:rustfmt_autosave = 1
-
-nnoremap <leader>u :UndotreeShow<CR>
-nnoremap <leader>pv :Ex<CR>
-nnoremap <Leader><CR> :so ~/.config/nvim/init.vim<CR>
-nnoremap <Leader>+ :vertical resize +5<CR>
-nnoremap <Leader>- :vertical resize -5<CR>
-nnoremap <Leader>rp :resize 100<CR>
-nnoremap <leader>gll :let g:_search_term = expand("%")<CR><bar>:Gclog -- %<CR>:call search(g:_search_term)<CR>
-nnoremap <leader>gln :cnext<CR>:call search(_search_term)<CR>
-nnoremap <leader>glp :cprev<CR>:call search(_search_term)<CR>
-
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
-
-" greatest remap ever
-xnoremap <leader>p "_dP
-
-" next greatest remap ever : asbjornHaland
-nnoremap <leader>y "+y
-vnoremap <leader>y "+y
-nnoremap <leader>Y gg"+yG
-
-nnoremap <leader>d "_d
-vnoremap <leader>d "_d
-
-nnoremap <leader>crs :g;<c-r><c-w>; s;[a-z]\zs[A-Z];_\l&;g<cr>
-
-nnoremap <leader>sv :source $MYVIMRC<CR>
-
-inoremap <C-c> <esc>
-
-augroup INSAYT
-  autocmd!
-  autocmd BufWritePre * %s/\s\+$//e
-  autocmd BufWritePre *.tsx,*.ts,*.jsx,*.js EslintFixAll
-augroup END
