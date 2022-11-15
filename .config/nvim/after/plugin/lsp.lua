@@ -17,16 +17,16 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 local function config(_config)
 	return vim.tbl_deep_extend("force", {
 		on_attach = function()
-			nnoremap("gd", function() lspsaga.peek_definition({ silent = true }) end)
-			nnoremap("K", function() lspsaga.hover_doc({ silent = true }) end)
+			nnoremap("gd", "<cmd>Lspsaga peek_definition<CR>", ({ silent = true }))
+			nnoremap("K",  "<cmd>Lspsaga hover_doc<CR>", ({ silent = true }))
 			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
 			nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
-			nnoremap("]d", function() lspsaga.diagnostic_jump_prev({ silent = true }) end)
-			nnoremap("[d", function() lspsaga.diagnostic_jump_next({ silent = true }) end)
-			nnoremap("]D", function() lspsaga.goto_prev({ severity = vim.diagnostic.severity.ERROR }) end)
-			nnoremap("[D", function() lspsaga.goto_next({ severity = vim.diagnostic.severity.ERROR }) end)
-			nnoremap("<leader>vca", function() lspsaga.code_action({ silent = true }) end)
-			nnoremap("<leader>vco", function() lspsaga.code_action({
+			nnoremap("]d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", ({ silent = true }))
+			nnoremap("[d", "<cmd>Lspsaga diagnostic_jump_next<CR>", ({ silent = true }))
+			nnoremap("]D", "<cmd>Lspsaga goto_prev<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+			nnoremap("[D", "<cmd>Lspsaga goto_next<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+			nnoremap("<leader>vca", "<cmd>Lspsaga code_action<CR>", ({ silent = true }))
+	        nnoremap("<leader>vco", function() vim.lsp.buf.code_action({
                 filter = function(code_action)
                     if not code_action or not code_action.data then
                         return false
@@ -37,10 +37,10 @@ local function config(_config)
                 end,
                 apply = true
             }) end)
-			nnoremap("<leader>vrr", function() lspsaga.lsp_finder({ silent = true }) end)
-			nnoremap("<leader>vrn", function() lspsaga.rename{ silent = true }() end)
-			nnoremap("<leader>vsd", function() lspsaga.show_line_diagnostics({ silent = true }) end)
-			nnoremap("<leader>vsd", function() lspsaga.show_cursor_diagnostics({ silent = true }) end)
+			nnoremap("<leader>vrr", "<cmd>Lspsaga lsp_finder<CR>", ({ silent = true }))
+			nnoremap("<leader>vrn", "<cmd>Lspsaga rename<CR>", ({ silent = true }))
+			nnoremap("<leader>vsd", "<cmd>Lspsaga show_line_diagnostics<CR>", ({ silent = true }))
+			nnoremap("<leader>vsd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", ({ silent = true }))
             --TODO: need to add and test outline
 
 			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
