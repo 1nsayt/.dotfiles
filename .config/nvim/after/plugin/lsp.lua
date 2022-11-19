@@ -20,11 +20,12 @@ local function config(_config)
 			nnoremap("gd", "<cmd>Lspsaga peek_definition<CR>", ({ silent = true }))
 			nnoremap("K",  "<cmd>Lspsaga hover_doc<CR>", ({ silent = true }))
 			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-			nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
+	     	nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
 			nnoremap("]d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", ({ silent = true }))
 			nnoremap("[d", "<cmd>Lspsaga diagnostic_jump_next<CR>", ({ silent = true }))
-			nnoremap("]D", "<cmd>Lspsaga goto_prev<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
-			nnoremap("[D", "<cmd>Lspsaga goto_next<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+             -- TODO: NEED TO FIX
+		--	nnoremap("]D", "<cmd>Lspsaga goto_prev<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+		--	nnoremap("[D", "<cmd>Lspsaga goto_next<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
 			nnoremap("<leader>vca", "<cmd>Lspsaga code_action<CR>", ({ silent = true }))
 	        nnoremap("<leader>vco", function() vim.lsp.buf.code_action({
                 filter = function(code_action)
@@ -41,8 +42,8 @@ local function config(_config)
 			nnoremap("<leader>vrn", "<cmd>Lspsaga rename<CR>", ({ silent = true }))
 			nnoremap("<leader>vsd", "<cmd>Lspsaga show_line_diagnostics<CR>", ({ silent = true }))
 			nnoremap("<leader>vsd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", ({ silent = true }))
-            --TODO: need to add and test outline
 
+            nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
 			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
 		end,
 	}, _config or {})
@@ -127,7 +128,7 @@ nvim_lsp.eslint.setup(config({
  )
 )
 
-local opts = {
+require("symbols-outline").setup({
 	-- whether to highlight the currently hovered symbol
 	-- disable if your cpu usage is higher than you want it
 	-- or you just hate the highlight
@@ -137,23 +138,13 @@ local opts = {
 	-- whether to show outline guides
 	-- default: true
 	show_guides = true,
-}
+})
 
---require("symbols-outline").setup(opts)
-
-local snippets_paths = function()
-	local plugins = { "friendly-snippets" }
-	local paths = {}
-	local path
-	local root_path = vim.env.HOME .. "/.vim/plugged/"
-	for _, plug in ipairs(plugins) do
-		path = root_path .. plug
-		if vim.fn.isdirectory(path) ~= 0 then
-			table.insert(paths, path)
-		end
-	end
-	return paths
-end
+require("luasnip.loaders.from_vscode").lazy_load({
+	paths = { "~/.local/share/nvim/site/pack/packer/start/friendly-snippets" },
+	include = nil, -- Load all languages
+	exclude = {},
+})
 
 --require("mason").setup({
 --        ui = {
@@ -220,9 +211,4 @@ end
 --    },
 --})
 
-require("luasnip.loaders.from_vscode").lazy_load({
-	paths = snippets_paths(),
-	include = nil, -- Load all languages
-	exclude = {},
-})
 

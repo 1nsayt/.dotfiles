@@ -1,5 +1,5 @@
 require("insayt.set")
---require("insayt.packer")
+require("insayt.packer")
 require("insayt.neogit")
 require("insayt.neorg")
 
