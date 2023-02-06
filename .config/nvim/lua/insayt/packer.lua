@@ -22,7 +22,15 @@ return require("packer").startup(function(use)
     use("simrat39/symbols-outline.nvim")
     use("L3MON4D3/LuaSnip")
     use("saadparwaiz1/cmp_luasnip")
-    use({"glepnir/lspsaga.nvim", branch = "main"})
+    use({
+        "glepnir/lspsaga.nvim",
+        branch = "main",
+        config = function()
+            require("lspsaga").setup({})
+        end,
+        requires = { {"nvim-tree/nvim-web-devicons"} }
+    })
+
     use {"williamboman/mason.nvim"}
     use "rafamadriz/friendly-snippets"
 

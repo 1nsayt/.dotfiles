@@ -3,8 +3,6 @@ local cmp = require("cmp")
 local lspkind = require("lspkind")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 -- TODO: Исправить ошибку с обработкой методов
-local lspsaga = require("lspsaga")
-lspsaga.init_lsp_saga()
 
 local Remap = require("insayt.keymap")
 local nnoremap = Remap.nnoremap
@@ -45,6 +43,9 @@ local function config(_config)
 
             nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
 			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
+
+			nnoremap("<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>", ({ silent = true }))
+			nnoremap("<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>", ({ silent = true }))
 		end,
 	}, _config or {})
 end
