@@ -26,6 +26,9 @@ return require("packer").startup(function(use)
     use {"williamboman/mason.nvim"}
     use "rafamadriz/friendly-snippets"
 
+    --fold/unfold
+    use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
+
     -- TODO: need to add alternative or find out
     -- Plug 'rust-lang/rust.vim'
 
