@@ -30,8 +30,11 @@ return require("packer").startup(function(use)
     -- Plug 'rust-lang/rust.vim'
 
     -- org
-    use {"nvim-neorg/neorg", requires = "nvim-lua/plenary.nvim"}
-
+    use {
+        "nvim-neorg/neorg",
+        run = ":Neorg sync-parsers", -- This is the important bit!
+        requires = "nvim-lua/plenary.nvim"
+    }
     -- markdown
     use {'iamcco/markdown-preview.nvim'}
 
