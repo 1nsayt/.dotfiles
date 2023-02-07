@@ -4,28 +4,23 @@ local lspkind = require("lspkind")
 local cmp_nvim_lsp = require("cmp_nvim_lsp")
 -- TODO: Исправить ошибку с обработкой методов
 
-local Remap = require("insayt.keymap")
-local nnoremap = Remap.nnoremap
-local inoremap = Remap.inoremap
-
-
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local function config(_config)
 	return vim.tbl_deep_extend("force", {
 		on_attach = function()
-			nnoremap("gd", "<cmd>Lspsaga peek_definition<CR>", ({ silent = true }))
-			nnoremap("K",  "<cmd>Lspsaga hover_doc<CR>", ({ silent = true }))
-			nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-	     	nnoremap("<leader>vd", function() vim.diagnostic.open_float() end)
-			nnoremap("]d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", ({ silent = true }))
-			nnoremap("[d", "<cmd>Lspsaga diagnostic_jump_next<CR>", ({ silent = true }))
+			vim.keymap.set("n","gd", "<cmd>Lspsaga peek_definition<CR>", ({ silent = true }))
+			vim.keymap.set("n","K",  "<cmd>Lspsaga hover_doc<CR>", ({ silent = true }))
+			vim.keymap.set("n","<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
+	     	vim.keymap.set("n","<leader>vd", function() vim.diagnostic.open_float() end)
+			vim.keymap.set("n","]d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", ({ silent = true }))
+			vim.keymap.set("n","[d", "<cmd>Lspsaga diagnostic_jump_next<CR>", ({ silent = true }))
              -- TODO: NEED TO FIX
-		--	nnoremap("]D", "<cmd>Lspsaga goto_prev<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
-		--	nnoremap("[D", "<cmd>Lspsaga goto_next<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
-			nnoremap("<leader>vca", "<cmd>Lspsaga code_action<CR>", ({ silent = true }))
-	        nnoremap("<leader>vco", function() vim.lsp.buf.code_action({
+		--	vim.keymap.set("n","]D", "<cmd>Lspsaga goto_prev<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+		--	vim.keymap.set("n","[D", "<cmd>Lspsaga goto_next<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+			vim.keymap.set("n","<leader>vca", "<cmd>Lspsaga code_action<CR>", ({ silent = true }))
+	        vim.keymap.set("n","<leader>vco", function() vim.lsp.buf.code_action({
                 filter = function(code_action)
                     if not code_action or not code_action.data then
                         return false
@@ -36,16 +31,16 @@ local function config(_config)
                 end,
                 apply = true
             }) end)
-			nnoremap("<leader>vrr", "<cmd>Lspsaga lsp_finder<CR>", ({ silent = true }))
-			nnoremap("<leader>vrn", "<cmd>Lspsaga rename<CR>", ({ silent = true }))
-			nnoremap("<leader>vsd", "<cmd>Lspsaga show_line_diagnostics<CR>", ({ silent = true }))
-			nnoremap("<leader>vsd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", ({ silent = true }))
+			vim.keymap.set("n","<leader>vrr", "<cmd>Lspsaga lsp_finder<CR>", ({ silent = true }))
+			vim.keymap.set("n","<leader>vrn", "<cmd>Lspsaga rename<CR>", ({ silent = true }))
+			vim.keymap.set("n","<leader>vsd", "<cmd>Lspsaga show_line_diagnostics<CR>", ({ silent = true }))
+			vim.keymap.set("n","<leader>vsd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", ({ silent = true }))
 
-            nnoremap("<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-			inoremap("<C-h>", function() vim.lsp.buf.signature_help() end)
+            vim.keymap.set("n","<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
+			vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
 
-			nnoremap("<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>", ({ silent = true }))
-			nnoremap("<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>", ({ silent = true }))
+			vim.keymap.set("n","<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>", ({ silent = true }))
+			vim.keymap.set("n","<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>", ({ silent = true }))
 		end,
 	}, _config or {})
 end
