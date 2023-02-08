@@ -13,15 +13,33 @@ return require("packer").startup(function(use)
     use("nvim-telescope/telescope-fzy-native.nvim")
 
     -- LSP and cmp
-    use("neovim/nvim-lspconfig")
-    use("hrsh7th/cmp-nvim-lsp")
-    use("hrsh7th/cmp-buffer")
-    use("hrsh7th/nvim-cmp")
     use("onsails/lspkind-nvim")
     use("nvim-lua/lsp_extensions.nvim")
-    use("simrat39/symbols-outline.nvim")
-    use("L3MON4D3/LuaSnip")
-    use("saadparwaiz1/cmp_luasnip")
+
+
+    use {
+         'VonHeikemen/lsp-zero.nvim',
+         branch = 'v1.x',
+         requires = {
+             -- LSP Support
+             {'neovim/nvim-lspconfig'},
+             {'williamboman/mason.nvim'},
+             {'williamboman/mason-lspconfig.nvim'},
+
+             -- Autocompletion
+             {'hrsh7th/nvim-cmp'},
+             {'hrsh7th/cmp-buffer'},
+             {'hrsh7th/cmp-path'},
+             {'saadparwaiz1/cmp_luasnip'},
+             {'hrsh7th/cmp-nvim-lsp'},
+             {'hrsh7th/cmp-nvim-lua'},
+
+             -- Snippets
+             {'L3MON4D3/LuaSnip'},
+             {'rafamadriz/friendly-snippets'},
+         }
+     }
+
     use({
         "glepnir/lspsaga.nvim",
         branch = "main",
@@ -31,8 +49,7 @@ return require("packer").startup(function(use)
         requires = { {"nvim-tree/nvim-web-devicons"} }
     })
 
-    use {"williamboman/mason.nvim"}
-    use "rafamadriz/friendly-snippets"
+    use("simrat39/symbols-outline.nvim")
 
     --fold/unfold
     use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}

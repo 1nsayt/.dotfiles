@@ -1,49 +1,52 @@
-local nvim_lsp = require("lspconfig")
 local cmp = require("cmp")
 local lspkind = require("lspkind")
-local cmp_nvim_lsp = require("cmp_nvim_lsp")
--- TODO: Исправить ошибку с обработкой методов
+local lsp = require("lsp-zero")
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
+lsp.preset("recommended")
 
-local function config(_config)
-	return vim.tbl_deep_extend("force", {
-		on_attach = function()
-			vim.keymap.set("n","gd", "<cmd>Lspsaga peek_definition<CR>", ({ silent = true }))
-			vim.keymap.set("n","K",  "<cmd>Lspsaga hover_doc<CR>", ({ silent = true }))
-			vim.keymap.set("n","<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-	     	vim.keymap.set("n","<leader>vd", function() vim.diagnostic.open_float() end)
-			vim.keymap.set("n","]d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", ({ silent = true }))
-			vim.keymap.set("n","[d", "<cmd>Lspsaga diagnostic_jump_next<CR>", ({ silent = true }))
-             -- TODO: NEED TO FIX
-		--	vim.keymap.set("n","]D", "<cmd>Lspsaga goto_prev<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
-		--	vim.keymap.set("n","[D", "<cmd>Lspsaga goto_next<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
-			vim.keymap.set("n","<leader>vca", "<cmd>Lspsaga code_action<CR>", ({ silent = true }))
-	        vim.keymap.set("n","<leader>vco", function() vim.lsp.buf.code_action({
-                filter = function(code_action)
-                    if not code_action or not code_action.data then
-                        return false
-                    end
+lsp.ensure_installed({
+  'tsserver',
+  'eslint',
+  'sumneko_lua',
+  'cssls',
+})
 
-                    local data = code_action.data.id
-                    return string.sub(data, #data - 1, #data) == ":0"
-                end,
-                apply = true
-            }) end)
-			vim.keymap.set("n","<leader>vrr", "<cmd>Lspsaga lsp_finder<CR>", ({ silent = true }))
-			vim.keymap.set("n","<leader>vrn", "<cmd>Lspsaga rename<CR>", ({ silent = true }))
-			vim.keymap.set("n","<leader>vsd", "<cmd>Lspsaga show_line_diagnostics<CR>", ({ silent = true }))
-			vim.keymap.set("n","<leader>vsd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", ({ silent = true }))
+lspzon_attach(function(client, bufnr)
 
-            vim.keymap.set("n","<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-			vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
+    local opts = { buffer = bufnr, remap = false }
 
-			vim.keymap.set("n","<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>", ({ silent = true }))
-			vim.keymap.set("n","<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>", ({ silent = true }))
-		end,
-	}, _config or {})
-end
+	vim.keymap.set("n","gd", "<cmd>Lspsaga peek_definition<CR>", ({ silent = true }))
+	vim.keymap.set("n","K",  "<cmd>Lspsaga hover_doc<CR>", ({ silent = true }))
+	vim.keymap.set("n","<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
+	vim.keymap.set("n","<leader>vd", function() vim.diagnostic.open_float() end)
+	vim.keymap.set("n","]d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", ({ silent = true }))
+	vim.keymap.set("n","[d", "<cmd>Lspsaga diagnostic_jump_next<CR>", ({ silent = true }))
+    --  TODO: NEED TO FIX
+	--	vim.keymap.set("n","]D", "<cmd>Lspsaga goto_prev<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+	--	vim.keymap.set("n","[D", "<cmd>Lspsaga goto_next<CR>", ({ severity = vim.diagnostic.severity.ERROR }))
+	vim.keymap.set("n","<leader>vca", "<cmd>Lspsaga code_action<CR>", ({ silent = true }))
+	vim.keymap.set("n","<leader>vco", function() vim.lsp.buf.code_action({
+        filter = function(code_action)
+            if not code_action or not code_action.data then
+                return false
+            end
+
+            local data = code_action.data.id
+            return string.sub(data, #data - 1, #data) == ":0"
+        end,
+        apply = true
+    }) end)
+	vim.keymap.set("n","<leader>vrr", "<cmd>Lspsaga lsp_finder<CR>", ({ silent = true }))
+	vim.keymap.set("n","<leader>vrn", "<cmd>Lspsaga rename<CR>", ({ silent = true }))
+	vim.keymap.set("n","<leader>vsd", "<cmd>Lspsaga show_line_diagnostics<CR>", ({ silent = true }))
+	vim.keymap.set("n","<leader>vsd", "<cmd>Lspsaga show_cursor_diagnostics<CR>", ({ silent = true }))
+
+    vim.keymap.set("n","<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
+	vim.keymap.set("i", "<C-h>", function() vim.lsp.buf.signature_help() end)
+
+	vim.keymap.set("n","<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>", ({ silent = true }))
+	vim.keymap.set("n","<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>", ({ silent = true }))
+end)
 
 local source_mapping = {
 	buffer = "[Buffer]",
@@ -52,11 +55,21 @@ local source_mapping = {
 	path = "[Path]",
 }
 
---require("lspkind").init({
-  --  with_text = true,
---})
+local cmp_select = {behavior = cmp.SelectBehavior.Select}
+local cmp_mappings = lsp.defaults.cmp_mappings({
+    ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
+    ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-d>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+})
 
-cmp.setup({
+lsp.set_preferences({
+  sign_icons = { }
+})
+
+lsp.setup_nvim_cmp({
 	snippet = {
 		expand = function(args)
 			-- For `luasnip` user.
@@ -64,14 +77,7 @@ cmp.setup({
 		end,
 	},
 
-	mapping = {
-		["<C-u>"] = cmp.mapping.scroll_docs(-4),
-		["<C-d>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-p>"] = cmp.mapping.select_prev_item(),
-		["<C-n>"] = cmp.mapping.select_next_item(),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
-	  },
+	mapping = cmp_mappings,
 
     formatting = {
             format = lspkind.cmp_format({
@@ -98,32 +104,6 @@ cmp.setup({
 	},
 })
 
-nvim_lsp.tsserver.setup(config())
-
-nvim_lsp.cssls.setup(config())
-
-nvim_lsp.rust_analyzer.setup(config({
-	cmd = { "rustup", "run", "nightly", "rust-analyzer" },
-	--[[
-    settings = {
-        rust = {
-            unstable_features = true,
-            build_on_save = false,
-            all_features = true,
-        },
-    }
-    --]]
-}))
-
-nvim_lsp.eslint.setup(config({
-     handlers = {
-         --- Just hack.This prevent issues with const in insert mode.
-         ['window/showMessageRequest'] = function(_, result, params) return result end
-   }
-  }
- )
-)
-
 require("symbols-outline").setup({
 	-- whether to highlight the currently hovered symbol
 	-- disable if your cpu usage is higher than you want it
@@ -136,12 +116,6 @@ require("symbols-outline").setup({
 	show_guides = true,
 })
 
-require("luasnip.loaders.from_vscode").lazy_load({
-	paths = { "~/.local/share/nvim/site/pack/packer/start/friendly-snippets" },
-	include = nil, -- Load all languages
-	exclude = {},
-})
-
-require("mason").setup()
+lsp.setup()
 
 
