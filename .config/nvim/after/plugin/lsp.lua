@@ -11,7 +11,7 @@ lsp.ensure_installed({
   'cssls',
 })
 
-lspzon_attach(function(client, bufnr)
+lsp.on_attach(function(client, bufnr)
 
     local opts = { buffer = bufnr, remap = false }
 
