@@ -2,9 +2,8 @@ return require("packer").startup(function(use)
     use("wbthomason/packer.nvim")
 
     -- git
-    use("TimUntersberger/neogit")
-    use {"sindrets/diffview.nvim", requires = "nvim-lua/plenary.nvim"}
     use {"lewis6991/gitsigns.nvim"}
+    use("tpope/vim-fugitive")
 
     -- telescope
     use("nvim-lua/plenary.nvim")
@@ -15,6 +14,18 @@ return require("packer").startup(function(use)
     -- LSP and cmp
     use("onsails/lspkind-nvim")
     use("nvim-lua/lsp_extensions.nvim")
+
+
+    use({"folke/trouble.nvim",
+    config = function()
+        require("trouble").setup {
+            icons = false,
+            -- your configuration comes here
+            -- or leave it empty to use the default settings
+            -- refer to the configuration section below
+        }
+    end
+    })
 
 
     use {
@@ -54,9 +65,6 @@ return require("packer").startup(function(use)
     --fold/unfold
     use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
 
-    -- TODO: need to add alternative or find out
-    -- Plug 'rust-lang/rust.vim'
-
     -- org
     use {
         "nvim-neorg/neorg",
@@ -85,6 +93,11 @@ return require("packer").startup(function(use)
     use("nvim-treesitter/nvim-treesitter", {run = ":TSUpdate"})
     use("nvim-treesitter/playground")
     use("romgrk/nvim-treesitter-context")
+    use({
+      "nvim-treesitter/nvim-treesitter-textobjects",
+      after = "nvim-treesitter",
+      requires = "nvim-treesitter/nvim-treesitter",
+    })
 
     -- debug
     use("mfussenegger/nvim-dap")
