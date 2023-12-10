@@ -1,15 +1,11 @@
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 local lsp = require("lsp-zero")
+local cmp_action = lsp.cmp_action()
+local cmp_format = lsp.cmp_format()
+require('luasnip.loaders.from_vscode').lazy_load()
 
 lsp.preset("recommended")
-
-lsp.ensure_installed({
-    'tsserver',
-    'eslint',
-    'lua_ls',
-    'cssls',
-})
 
 lsp.on_attach(function()
     local keymap = vim.keymap.set
@@ -103,57 +99,19 @@ lsp.on_attach(function()
     keymap({ "n", "t" }, "<A-d>", "<cmd>Lspsaga term_toggle<CR>")
 end)
 
-local source_mapping = {
-    buffer = "[Buffer]",
-    nvim_lsp = "[LSP]",
-    nvim_lua = "[Lua]",
-    path = "[Path]",
-}
 
 local cmp_select = { behavior = cmp.SelectBehavior.Select }
 local cmp_mappings = lsp.defaults.cmp_mappings({
         ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
         ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        ["<C-u>"] = cmp.mapping.scroll_docs( -4),
+        ["<C-u>"] = cmp.mapping.scroll_docs(-4),
         ["<C-d>"] = cmp.mapping.scroll_docs(4),
         ["<C-Space>"] = cmp.mapping.complete(),
-    })
+})
 
 lsp.set_preferences({
     sign_icons = {}
-})
-
-lsp.setup_nvim_cmp({
-    snippet = {
-        expand = function(args)
-            -- For `luasnip` user.
-            require('luasnip').lsp_expand(args.body)
-        end,
-    },
-    mapping = cmp_mappings,
-    formatting = {
-        format = lspkind.cmp_format({
-            with_text = true, -- do not show text alongside icons
-            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-
-            -- The function below will be called before any actual modifications from lspkind
-            -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
-            before = function(entry, vim_item)
-                vim_item.menu = source_mapping[entry.source.name]
-                return vim_item
-            end
-        })
-    },
-    sources = {
-        { name = "nvim_lsp" },
-
-        { name = "luasnip" },
-
-        { name = "buffer" },
-
-        { name = "neorg" },
-    },
 })
 
 require("symbols-outline").setup({
@@ -167,8 +125,56 @@ require("symbols-outline").setup({
     show_guides = true,
 })
 
-lsp.setup()
+
+local source_mapping = {
+    buffer = "[Buffer]",
+    nvim_lsp = "[LSP]",
+    luasnip = "[LuaSnip]",
+    path = "[Path]",
+}
+
+cmp.setup({
+  preselect = 'item',
+  completion = {
+    completeopt = 'menu,menuone,noinsert'
+  },
+  snippet = {
+      expand = function(args)
+          -- For `luasnip` user.
+          require('luasnip').lsp_expand(args.body)
+      end,
+  },
+  mapping = cmp_mappings,
+  sources = {
+      { name = "nvim_lsp" },
+
+      { name = "luasnip" },
+
+      { name = "buffer" },
+
+--    { name = "neorg" },
+  },
+  formatting = {
+        format = lspkind.cmp_format({
+            with_text = true, -- do not show text alongside icons
+            maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
+            ellipsis_char = '...',
+
+            -- The function below will be called before any actual modifications from lspkind
+            -- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
+            before = function(entry, vim_item)
+                vim_item.menu = source_mapping[entry.source.name]
+
+                vim_item.dup = source_mapping[entry.source.name] or 0
+
+                return vim_item
+            end
+        })
+  },
+})
+
+--lsp.setup()
 
 vim.diagnostic.config({
-    virtual_text = true
+    virtual_text = true,
 })
