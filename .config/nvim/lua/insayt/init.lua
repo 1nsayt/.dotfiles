@@ -2,7 +2,6 @@ require("insayt.set")
 require("insayt.lazy")
 require("insayt.neorg")
 require("insayt.ufo")
-require("insayt.hardtime")
 
 local augroup = vim.api.nvim_create_augroup
 Insayt = augroup('Insayt', {})
@@ -49,5 +48,3 @@ vim.g.netrw_browse_split = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_winsize = 25
 vim.g.netrw_localrmdir = "rm -r"
-
-require("lazy").setup(plugins, opts)

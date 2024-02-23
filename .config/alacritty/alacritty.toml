@@ -1,0 +1,15 @@
+[font]
+size = 14.0
+
+[font.normal]
+family = "DroidSansMono Nerd Font Mono"
+style = "Regular"
+
+[shell]
+args = ["--login"]
+program = "/bin/zsh"
+
+[window]
+decorations = "none"
+opacity = 0.9
+startup_mode = "Windowed"

@@ -1,13 +1,12 @@
 local cmp = require("cmp")
 local lspkind = require("lspkind")
 local lsp = require("lsp-zero")
-local cmp_action = lsp.cmp_action()
-local cmp_format = lsp.cmp_format()
 require('luasnip.loaders.from_vscode').lazy_load()
+local lspconfig = require("lspconfig")
 
 lsp.preset("recommended")
 
-lsp.on_attach(function()
+lsp.on_attach(function(client, bufnr)
     local keymap = vim.keymap.set
 
     -- LSP finder - Find the symbol's definition
@@ -178,3 +177,23 @@ cmp.setup({
 vim.diagnostic.config({
     virtual_text = true,
 })
+
+lspconfig.gopls.setup {
+    cmd = { "gopls" },
+    filetypes = { "go", "gomod", "gowork", "gotmpl" },
+    root_dir = require("lspconfig/util").root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+        gopls = {
+            completeUnimported = true,
+            usePlaceholders = true,
+            analyses = {
+                unusedparams = true,
+            },
+            -- TODO: Настроить
+            hints = {
+                parameterNames = true,
+                constantValues = true,
+            }
+        },
+    },
+}

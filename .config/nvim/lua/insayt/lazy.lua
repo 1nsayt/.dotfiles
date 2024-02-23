@@ -110,7 +110,7 @@ require("lazy").setup(
                         lsp_zero.extend_lspconfig()
 
                         lsp_zero.on_attach(
-                            function(client, bufnr)
+                            function(_, bufnr)
                                 -- see :help lsp-zero-keybindings
                                 -- to learn the available actions
                                 lsp_zero.default_keymaps({buffer = bufnr})
@@ -119,7 +119,9 @@ require("lazy").setup(
 
                         require("mason-lspconfig").setup(
                             {
-                                ensure_installed = {},
+                                ensure_installed = {
+                                    "gopls",
+                                },
                                 handlers = {
                                     lsp_zero.default_setup,
                                     lua_ls = function()
@@ -199,7 +201,6 @@ require("lazy").setup(
         "mfussenegger/nvim-dap",
         "rcarriga/nvim-dap-ui",
         "theHamsta/nvim-dap-virtual-text",
-        "m4xshen/hardtime.nvim"
     }
 )
 
