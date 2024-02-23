@@ -189,7 +189,7 @@ lspconfig.gopls.setup {
             analyses = {
                 unusedparams = true,
             },
-            -- TODO: Настроить
+            -- FIXME: Настроить
             hints = {
                 parameterNames = true,
                 constantValues = true,
